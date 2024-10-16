@@ -188,8 +188,10 @@ pipeline {
             steps {
                 withAWS(region:'us-east-1', credentials: 'cppalliance-bot-aws-user') {
 
-                    s3Upload(bucket:"cppalliance-previews", path:"${DNSREPONAME}/${CHANGE_ID}/doc/",  workingDir: "boost-root/doc" , includePathPattern:"**")
+                    // s3Upload(bucket:"cppalliance-previews", path:"${DNSREPONAME}/${CHANGE_ID}/doc/",  workingDir: "boost-root/doc" , includePathPattern:"**")
+                    s3Upload(bucket:"cppalliance-previews", path:"${DNSREPONAME}/${CHANGE_ID}/doc/src/",  workingDir: "boost-root/doc/src" , includePathPattern:"**")
                     s3Upload(bucket:"cppalliance-previews", path:"${DNSREPONAME}/${CHANGE_ID}/libs/${REPONAME}/doc/", workingDir: "boost-root/libs/${REPONAME}/doc", includePathPattern:"**")
+                    s3Upload(bucket:"cppalliance-previews", path:"${DNSREPONAME}/${CHANGE_ID}/", workingDir: "boost-root", includePathPattern:"boost.png")
 
                 }
                 script {
