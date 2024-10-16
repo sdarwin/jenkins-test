@@ -5,7 +5,7 @@ The repository contains the Jenkinfiles used to build documentation previews for
 
 In addition to doc previews there may also be benchmarking automation and other types of CI jobs.
 
-See the [jenkinsfiles](jenkinsfiles) directory.  
+See the [jenkinsfiles](jenkinsfiles) directory for the file content.   
 
 The [scripts](scripts) directory will have (optional) scripts used by the jobs.  
 
