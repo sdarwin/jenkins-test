@@ -37,6 +37,7 @@ pipeline {
                 echo "DNSREPONAME=${DNSREPONAME}" >> jenkinsjobinfo.sh
                 echo "ORGANIZATION=${ORGANIZATION}" >> jenkinsjobinfo.sh
                 echo "JENKINS_CI_REPO=sdarwin/jenkins-test" >> jenkinsjobinfo.sh
+                echo "REMOTE_J_FILE=yes" >> jenkinsjobinfo.sh
                 '''
             }
         }
