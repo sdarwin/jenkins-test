@@ -37,7 +37,7 @@ pipeline {
                 echo "DNSREPONAME=${DNSREPONAME}" >> jenkinsjobinfo.sh
                 echo "ORGANIZATION=${ORGANIZATION}" >> jenkinsjobinfo.sh
                 echo "JENKINS_CI_REPO=sdarwin/jenkins-test" >> jenkinsjobinfo.sh
-                echo "REMOTE_J_FILE=yes" >> jenkinsjobinfo.sh
+                echo "REMOTE_JENKINSFILE_FILE=yes" >> jenkinsjobinfo.sh
                 '''
             }
         }
@@ -54,11 +54,9 @@ pipeline {
                 pwd
                 env 
                 whoami
-                touch $(date "+%A-%B-%d-%T-%y") || true
-                mount | grep ^/dev/ | grep -v /etc | awk '{print \$3}' || true
-                echo "git branch"
+                touch $(date "+%A-%B-%d-%T-%y")
+                mount | grep ^/dev/ | grep -v /etc | awk '{print \$3}'
                 git branch
-                echo "git branches"
                 git branch -avv
                 true
                 '''
@@ -106,12 +104,12 @@ pipeline {
 
                 curl -s -S --retry 10 -L -o linuxdocs.sh https://github.com/boostorg/release-tools/raw/develop/build_docs/linuxdocs.sh
                 chmod 755 linuxdocs.sh
-                # Only during testing, skip
-                # ./linuxdocs.sh --boostrootsubdir --skip-packages
-                mkdir -p boost-root/libs/${REPONAME}/doc/html
-                echo "qwerty" > boost-root/libs/${REPONAME}/doc/html/index.html
-                mkdir -p boost-root/doc
-                echo "qwerty" > boost-root/doc/index.html
+                ./linuxdocs.sh --boostrootsubdir --skip-packages
+                # debugging:
+                # mkdir -p boost-root/libs/${REPONAME}/doc/html
+                # echo "qwerty" > boost-root/libs/${REPONAME}/doc/html/index.html
+                # mkdir -p boost-root/doc
+                # echo "qwerty" > boost-root/doc/index.html
                 '''
                 }
             }
@@ -176,9 +174,6 @@ pipeline {
 
             environment {
                 // See https://www.jenkins.io/doc/book/pipeline/jenkinsfile/#using-environment-variables
-                // REPONAME = 'json'
-                // DNSREPONAME = 'json'
-
                  REPONAME = """${sh(
                  returnStdout: true,
                  script: '#!/bin/bash \n' + 'source jenkinsjobinfo.sh; echo -n "${REPONAME}"'
@@ -194,9 +189,7 @@ pipeline {
                 withAWS(region:'us-east-1', credentials: 'cppalliance-bot-aws-user') {
 
                     s3Upload(bucket:"cppalliance-previews", path:"${DNSREPONAME}/${CHANGE_ID}/doc/",  workingDir: "boost-root/doc" , includePathPattern:"**")
-                    // s3Upload(bucket:"cppalliance-previews", path:"${DNSREPONAME}/${CHANGE_ID}/doc/",  workingDir: "boost-root/doc" , includePathPattern:"**/*")
                     s3Upload(bucket:"cppalliance-previews", path:"${DNSREPONAME}/${CHANGE_ID}/libs/${REPONAME}/doc/", workingDir: "boost-root/libs/${REPONAME}/doc", includePathPattern:"**")
-                    // s3Upload(bucket:"cppalliance-previews", path:"${DNSREPONAME}/${CHANGE_ID}/libs/${REPONAME}/doc/", workingDir: "boost-root/libs/${REPONAME}/doc", includePathPattern:"**/*")
 
                 }
                 script {
@@ -217,17 +210,13 @@ pipeline {
                 pwd
                 env
                 whoami
-                touch $(date "+%A-%B-%d-%T-%y") || true
-                mount | grep ^/dev/ | grep -v /etc | awk '{print \$3}' || true
-                echo "git branch"
+                touch $(date "+%A-%B-%d-%T-%y") 
+                mount | grep ^/dev/ | grep -v /etc | awk '{print \$3}' 
                 git branch
-                echo "git branches"
                 git branch -avv
                 true
                 '''
             }
         }
-
-
     }
 }
