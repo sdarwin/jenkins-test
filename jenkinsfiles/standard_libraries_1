@@ -195,7 +195,7 @@ pipeline {
 
                 }
                 script {
-                    pullRequest.comment("An automated preview of the documentation is available at [https://${env.CHANGE_ID}.${env.DNSREPONAME}.prtest.cppalliance.org/libs/${env.REPONAME}/doc/html/index.html](https://${env.CHANGE_ID}.${env.DNSREPONAME}.prtest.cppalliance.org/libs/${env.REPONAME}/doc/html/index.html)")
+                    pullRequest.comment("An automated preview of the documentation is available at [https://${env.CHANGE_ID}.${env.DNSREPONAME}.prtest2.cppalliance.org/libs/${env.REPONAME}/doc/html/index.html](https://${env.CHANGE_ID}.${env.DNSREPONAME}.prtest2.cppalliance.org/libs/${env.REPONAME}/doc/html/index.html)")
                 }
             }
         }
