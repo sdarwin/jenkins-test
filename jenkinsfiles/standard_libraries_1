@@ -33,11 +33,11 @@ pipeline {
                 # REPONAME=$(basename `git rev-parse --show-toplevel`)
                 DNSREPONAME=$(echo $REPONAME | tr '_' '-')
                 ORGANIZATION=$(basename $(dirname "${GIT_URL}"))
+                echo "JENKINS_CI_REPO=sdarwin/jenkins-test" >> jenkinsjobinfo.sh
+                echo "PRTEST=prtest" >> jenkinsjobinfo.sh
                 echo "REPONAME=${REPONAME}" >> jenkinsjobinfo.sh
                 echo "DNSREPONAME=${DNSREPONAME}" >> jenkinsjobinfo.sh
                 echo "ORGANIZATION=${ORGANIZATION}" >> jenkinsjobinfo.sh
-                echo "JENKINS_CI_REPO=sdarwin/jenkins-test" >> jenkinsjobinfo.sh
-                echo "REMOTE_JENKINSFILE_FILE=yes" >> jenkinsjobinfo.sh
                 '''
             }
         }
@@ -182,6 +182,10 @@ pipeline {
                  returnStdout: true,
                  script: '#!/bin/bash \n' + 'source jenkinsjobinfo.sh; echo -n "${DNSREPONAME}"'
              )}"""
+                 PRTEST = """${sh(
+                 returnStdout: true,
+                 script: '#!/bin/bash \n' + 'source jenkinsjobinfo.sh; echo -n "${PRTEST}"'
+             )}"""
 
             }
 
@@ -195,7 +199,7 @@ pipeline {
 
                 }
                 script {
-                    pullRequest.comment("An automated preview of the documentation is available at [https://${env.CHANGE_ID}.${env.DNSREPONAME}.prtest2.cppalliance.org/libs/${env.REPONAME}/doc/html/index.html](https://${env.CHANGE_ID}.${env.DNSREPONAME}.prtest2.cppalliance.org/libs/${env.REPONAME}/doc/html/index.html)")
+                    pullRequest.comment("An automated preview of the documentation is available at [https://${env.CHANGE_ID}.${env.DNSREPONAME}.${env.PRTEST}.cppalliance.org/libs/${env.REPONAME}/doc/html/index.html](https://${env.CHANGE_ID}.${env.DNSREPONAME}.${env.PRTEST}.cppalliance.org/libs/${env.REPONAME}/doc/html/index.html)")
                 }
             }
         }
