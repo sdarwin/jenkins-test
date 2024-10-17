@@ -7,7 +7,7 @@ In addition to doc previews there may also be benchmarking automation and other 
 
 See the [jenkinsfiles](jenkinsfiles) directory for the file content.   
 
-The [scripts](scripts) directory will have (optional) scripts used by the jobs.  
+The [scripts](scripts) directory will have scripts used by the jobs. prebuild, postbuild.  
 
 The [docs](docs) directory will cover more information about how the server was installed and about specific target repositories and jobs. 
 
